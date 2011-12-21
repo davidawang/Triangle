@@ -96,11 +96,9 @@ console.log(req.body.cardID);
   	  console.log("card already added before. incrementing counter");
   	}
   });
-  
   client.incr('triangle-room:cis195:card:'+cardID, function(err, data) {
+  	
   });
-  
-  res.send('');
 });
 
 app.post('/rooms/cis195/cards/:id', function(req, res) {
