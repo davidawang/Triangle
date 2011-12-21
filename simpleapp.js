@@ -89,11 +89,17 @@ app.post('/rooms/:id', function(req, res) {
 });
 
 app.post('/rooms/cis195/cards', function(req, res) {
+console.log(req.body.cardID);
   var cardID = req.body.cardID;
-  console.log('test:' + cardID);
-  client.sadd('triangle-room:cis195:cardlist', cardID); 
+  client.sadd('triangle-room:cis195:cardslist', cardID, function(err, data) {
+  	if (data == 0) {
+  	  console.log("card already added before. incrementing counter");
+  	}
+  });
+  
   client.incr('triangle-room:cis195:card:'+cardID, function(err, data) {
   });
+  
   res.send('');
 });
 
@@ -104,11 +110,6 @@ app.post('/rooms/cis195/cards/:id', function(req, res) {
   });
 });
 
-
-// All put requests
-app.put('/rooms/:id', function(req, res) {
-  
-});
 
 
 // All delete requests
