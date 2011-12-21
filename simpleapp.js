@@ -99,7 +99,11 @@ app.get('/rooms/cis195/cards/:id', function(req, res) {
   res.send('');
 });
 
-
+app.get('/rooms/flush', function(req, res) {
+  console.log('FLUSHED ALL THE THINGS');
+  client.flushall();
+  res.send('');
+});
 
 // All post requests
 app.post('/rooms', function(req, res) {
