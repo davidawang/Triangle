@@ -81,11 +81,7 @@ app.get('/rooms/cis195/cards/:id', function(req, res) {
 
 // All post requests
 app.post('/rooms', function(req, res) {
-  var roomName = req.param('roomName', null);
-  var roomID = 123;
-  client.sadd('triangle-roomslist', roomID);
-  client.set('triangle-room:' + roomID, roomName);
-  res.send({status: 'okay'});
+
 });
 
 app.post('/rooms/:id', function(req, res) {
@@ -94,9 +90,11 @@ app.post('/rooms/:id', function(req, res) {
 
 app.post('/rooms/cis195/cards', function(req, res) {
   var cardID = req.body.cardID;
+  console.log('test:' + cardID);
   client.sadd('triangle-room:cis195:cardlist', cardID); 
   client.incr('triangle-room:cis195:card:'+cardID, function(err, data) {
-  }); 
+  });
+  res.send('');
 });
 
 app.post('/rooms/cis195/cards/:id', function(req, res) {
