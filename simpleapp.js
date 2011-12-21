@@ -111,7 +111,7 @@ app.post('/rooms/:id', function(req, res) {
 });
 
 app.post('/rooms/cis195/cards', function(req, res) {
-console.log(req.body.cardID);
+console.log('CardID' + req.body.cardID);
   var cardID = req.body.cardID;
   client.sadd('triangle-room:cis195:cardslist', cardID, function(err, data) {
   	if (data == 0) {
