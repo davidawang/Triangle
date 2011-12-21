@@ -119,8 +119,8 @@ console.log('CardID' + req.body.cardID);
   	}
   });
   client.incr('triangle-room:cis195:card:'+cardID, function(err, data) {
-  	
   });
+  res.send('done \r');
 });
 
 app.post('/rooms/cis195/cards/:id', function(req, res) {
