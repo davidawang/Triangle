@@ -47,9 +47,9 @@ app.get('/', function(req, res) {
 
 
 app.post('/test', function(req, res){
+  res.writeHead({'content-type': 'text/json'});
   console.log('headers: ' + JSON.stringify(req.headers));
   console.log('body: ' + JSON.stringify(req.body));
-  res.writeHead(200, {'content-type': 'text/json'});
   res.send({status: 'okay'});
 });
 
