@@ -6,9 +6,10 @@
 var express = require('express'),
     redis = require('redis'),
     client = redis.createClient(),
-    fs = require('fs');
+    fs = require('fs'),
+    form = require('connect-form');
 
-var app = module.exports = express.createServer();
+var app = module.exports = express.createServer(form({ keepExtensions: true, uploadDir:'./uploads' }));
 
 // Configuration
 app.configure(function(){
@@ -51,6 +52,18 @@ app.post('/test', function(req, res){
   console.log('headers: ' + JSON.stringify(req.headers));
   console.log('body: ' + JSON.stringify(req.body));
   res.send('');
+});
+
+app.post('/fileupload', function(req, res, next){
+  req.form.complete(function(err, fields, files) {
+    if (err) { next(err); }
+    else {
+            console.log(fields);
+            console.log('---------------');
+            console.log(files);
+            res.redirect(req.url);
+        }
+    });
 });
 
 // All get requests
