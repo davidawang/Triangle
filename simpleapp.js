@@ -6,16 +6,17 @@
 var express = require('express'),
     redis = require('redis'),
     client = redis.createClient(),
-    fs = require('fs'),
-    form = require('connect-form');
+    fs = require('fs');
 
-var app = module.exports = express.createServer(form({ keepExtensions: true, uploadDir:'./uploads' }));
+var app = module.exports = express.createServer();
 
 // Configuration
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
-  app.use(express.bodyParser());
+  app.use(express.bodyParser({
+  	uploadDir: './uploads'
+  }));
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
@@ -41,11 +42,19 @@ room:[id]:cardslist    (set)            - returns a set of cards in a room
 room:[id]:card:[id]    (string)         - returns counter of the card swipes on this unique card
 */
 
-app.get('/', function(req, res) {
-    fs.readFile(__dirname + '/public/graph.html', 'utf8', function(err, text){
-        res.send(text);
-    });
+app.get('/', function(req, res){
+  res.send('<form method="post" enctype="multipart/form-data">'
+    + '<p>Image: <input type="file" name="image" /></p>'
+    + '<p><input type="submit" value="Upload" /></p>'
+    + '</form>');
 });
+
+app.post('/', function(req, res, next){
+	console.log(req.files);
+	res.send('blah');
+});
+
+
 
 
 app.post('/test', function(req, res){
