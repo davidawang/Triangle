@@ -3,8 +3,7 @@
  * Module dependencies.
  */
 
-var sys = require('sys'),
-    express = require('express'),
+var express = require('express'),
     redis = require('redis'),
     client = redis.createClient(),
     fs = require('fs');
@@ -20,7 +19,6 @@ app.configure(function(){
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
-
 
 app.configure(function() {
   app.set('karaoke-app-sid', 'AP50c8715a2e534954b7a68165d033af27');
@@ -48,9 +46,11 @@ app.get('/', function(req, res) {
 });
 
 
-app.get('/test', function(req, res){
+app.post('/test', function(req, res){
   console.log('headers: ' + JSON.stringify(req.headers));
   console.log('body: ' + JSON.stringify(req.body));
+  res.writeHead(200, {'content-type': 'text/json'});
+  res.send({status: 'okay'});
 });
 
 // All get requests
@@ -80,8 +80,12 @@ app.get('/rooms/:id/cards/:id', function(req, res) {
 
 // All post requests
 app.post('/rooms', function(req, res) {
-  client.sadd('triangle-roomslist', req.)
-  client.set('triangle-room', req.body)
+  var roomName = req.param('roomName', null);
+  var roomID = 123;
+  client.sadd('triangle-roomslist', roomID);
+  client.set('triangle-room:' + roomID, roomName);
+  res.writeHead(200, {'content-type': 'text/json'});
+  res.send({status: 'okay'});
 });
 
 app.post('/rooms/:id', function(req, res) {
